@@ -20,12 +20,31 @@ def get_challenge_dict(session_id: str):
     session_store.update_session(session_id, {'challenges_dict': questions})
     return ChallengeDictResponse(session_id=session_id, questions=questions)
 
-@router.post('/challenge/submit', response_model=ChallengeAnswersRequest)
+@router.post('/challenge/submit', response_model=ChallengeBatchFeedbackResponse)
 def submit_challenge_answers(request: ChallengeAnswersRequest):
+    """
+    Submit challenge answers and automatically evaluate them.
+    Returns detailed feedback with scores for each answer and overall assessment.
+    """
     if not session_store.session_exists(request.session_id):
         raise HTTPException(status_code=404, detail='Session not found')
+    
+    # Store the answers
     session_store.update_session(request.session_id, {'challenge_answers': request.answers})
-    return request
+    
+    # Get document text and questions for evaluation
+    doc_text = get_document_text(request.session_id)
+    questions = session_store.get_session(request.session_id).get('challenges_dict', {})
+    
+    # If no questions found in session, generate them (fallback)
+    if not questions:
+        questions = generate_logic_challenges_dict(doc_text)
+        session_store.update_session(request.session_id, {'challenges_dict': questions})
+    
+    # Automatically evaluate the answers
+    feedback = evaluate_challenge_answers(doc_text, questions, request.answers)
+    
+    return ChallengeBatchFeedbackResponse(session_id=request.session_id, feedback=feedback)
 
 @router.post('/challenge/evaluate_batch', response_model=ChallengeBatchFeedbackResponse)
 def evaluate_challenge_batch(request: ChallengeAnswersRequest):
