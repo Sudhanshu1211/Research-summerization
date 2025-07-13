@@ -9,7 +9,7 @@ API_BASE_URL = "http://localhost:8000"
 
 def main():
     st.set_page_config(
-        page_title="Document Analysis & Challenge System",
+        page_title="Research document Suumerizer",
         page_icon="📚",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -125,7 +125,7 @@ def main():
     """, unsafe_allow_html=True)
     
     # Main header
-    st.markdown('<h1 class="main-header">📚 Document Analysis & Challenge System</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">📚 Research Document Summerizer</h1>', unsafe_allow_html=True)
     
     # Initialize session state
     if 'session_id' not in st.session_state:

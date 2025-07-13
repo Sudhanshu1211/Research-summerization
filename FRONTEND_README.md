@@ -28,7 +28,7 @@ A beautiful and intuitive Streamlit frontend for the Document Analysis & Challen
 2. **Start the Backend** (if not already running):
    ```bash
    # In the backend directory
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
+   uvicorn main:app --host 127.0.0.1 --port 8000 --reload
    ```
 
 3. **Run the Frontend**:
