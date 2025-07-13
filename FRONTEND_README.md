@@ -1,4 +1,4 @@
-# 📚 Document Analysis & Challenge System - Frontend
+# 📚 Research Document Summerizer - Frontend
 
 A beautiful and intuitive Streamlit frontend for the Document Analysis & Challenge System that provides a complete workflow for document analysis, question answering, and challenge evaluation.
 
